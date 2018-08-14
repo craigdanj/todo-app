@@ -11,6 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.0.0",
-    "graphql": "^0.13.2"
+    "casual": "1.5.19",
+    "graphql": "0.13.2",
+    "lodash": "4.17.10",
+    "sequelize": "4.38.0",
+    "sqlite3": "4.0.2"
   }
 }
