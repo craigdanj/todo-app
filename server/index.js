@@ -8,7 +8,7 @@ const _ = require('lodash');
 
 const db = new Sequelize('blog', null, null, {
   dialect: 'sqlite',
-  storage: './blog.sqlite',
+  storage: './db.sqlite',
 });
 
 const TodoModel = db.define('todo', {
@@ -25,7 +25,7 @@ const TodoModel = db.define('todo', {
 //create mock data with a seed, so we always get the same
 casual.seed(123);
 db.sync({ force: true }).then(() => {
-  _.times(10, () => {
+  _.times(5, () => {
     return TodoModel.create({
       text: casual.sentence,
       completed: 0
