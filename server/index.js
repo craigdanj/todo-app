@@ -54,7 +54,7 @@ type Query {
 }
 
 type Mutation {
-  addTodo(text: String): String
+  addTodo(text: String): [Todo]
 }
 
 type Todo {
@@ -74,8 +74,13 @@ const resolvers = {
   },
   Mutation: {
     addTodo(root, args, context, info) {
-      console.log(args.text);
-      return args.text;
+
+      return Todo.create({ text: args.text, completed: false}).then(todo => {
+        // you can now access the newly created todo via the variable todo
+
+        return Todo.findAll();
+      })
+
     }
   }
 };
