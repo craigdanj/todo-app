@@ -29,7 +29,7 @@ db.sync({ force: true }).then(() => {
     return TodoModel.create({
       text: casual.sentence,
       completed: 0
-    }).then((author) => {
+    }).then((todo) => {
 
     });
   });
