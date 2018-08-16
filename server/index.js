@@ -53,6 +53,10 @@ type Query {
   allTodos: [Todo]
 }
 
+type Mutation {
+  addTodo(text: String): String
+}
+
 type Todo {
   id: Int
   text: String
@@ -61,24 +65,19 @@ type Todo {
 `;
 
 
-// Resolvers define the technique for fetching the types in the
-// schema.  We'll retrieve books from the "books" array above.
+// Resolvers define the technique for fetching the types in the schema.
 const resolvers = {
   Query: {
-    allTodos(_, args) {
+    allTodos(root, args) {
       return Todo.findAll();
     }
   },
-  // Todo: {
-  //   (author) {
-  //     return author.getPosts();
-  //   }
-  // },
-  // Post: {
-  //   author(post) {
-  //     return post.getAuthor();
-  //   }
-  // }
+  Mutation: {
+    addTodo(root, args, context, info) {
+      console.log(args.text);
+      return args.text;
+    }
+  }
 };
 
 // In the most basic sense, the ApolloServer can be started
