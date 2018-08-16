@@ -1,3 +1,6 @@
+//========================================
+//===========   DATABASE    ==============
+//========================================
 
 const Sequelize = require('sequelize');
 const casual = require('casual');
@@ -22,20 +25,20 @@ AuthorModel.hasMany(PostModel);
 PostModel.belongsTo(AuthorModel);
 
 // create mock data with a seed, so we always get the same
-casual.seed(123);
-db.sync({ force: true }).then(() => {
-  _.times(10, () => {
-    return AuthorModel.create({
-      firstName: casual.first_name,
-      lastName: casual.last_name,
-    }).then((author) => {
-      return author.createPost({
-        title: `A post by ${author.firstName}`,
-        text: casual.sentences(3),
-      });
-    });
-  });
-});
+// casual.seed(123);
+// db.sync({ force: true }).then(() => {
+//   _.times(10, () => {
+//     return AuthorModel.create({
+//       firstName: casual.first_name,
+//       lastName: casual.last_name,
+//     }).then((author) => {
+//       return author.createPost({
+//         title: `A post by ${author.firstName}`,
+//         text: casual.sentences(3),
+//       });
+//     });
+//   });
+// });
 
 const Author = db.models.author;
 const Post = db.models.post;
@@ -49,44 +52,52 @@ const Post = db.models.post;
 
 const { ApolloServer, gql } = require('apollo-server');
 
-// This is a (sample) collection of books we'll be able to query
-// the GraphQL server for.  A more complete example might fetch
-// from an existing data source like a REST API or database.
-const books = [
-  {
-    title: 'Moby Dick',
-    author: 'H Melville',
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
-  },
-];
 
 // Type definitions define the "shape" of your data and specify
 // which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
-  # Comments in GraphQL are defined with the hash (#) symbol.
-
-  # This "Book" type can be used in other type declarations.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is the root of all GraphQL queries.
-  # (A "Mutation" type will be covered later on.)
-  type Query {
-    books: [Book]
-  }
+type Query {
+  author(firstName: String, lastName: String): Author
+  allAuthors: [Author]
+  getFortuneCookie: String # we'll use this later
+}
+type Author {
+  id: Int
+  firstName: String
+  lastName: String
+  posts: [Post]
+}
+type Post {
+  id: Int
+  title: String
+  text: String
+  views: Int
+  author: Author
+}
 `;
+
 
 // Resolvers define the technique for fetching the types in the
 // schema.  We'll retrieve books from the "books" array above.
 const resolvers = {
   Query: {
-    books: () => books,
+    author(_, args) {
+      return Author.find({ where: args });
+    },
+    allAuthors(_, args) {
+      return Author.findAll();
+    }
   },
+  Author: {
+    posts(author) {
+      return author.getPosts();
+    }
+  },
+  Post: {
+    author(post) {
+      return post.getAuthor();
+    }
+  }
 };
 
 // In the most basic sense, the ApolloServer can be started
