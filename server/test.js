@@ -11,31 +11,38 @@ const db = new Sequelize('blog', null, null, {
   storage: './blog.sqlite',
 });
 
-const TodoModel = db.define('todo', {
-  id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-  text: { type: Sequelize.STRING },
-  completed: { type: Sequelize.BOOLEAN },
+const AuthorModel = db.define('author', {
+  firstName: { type: Sequelize.STRING },
+  lastName: { type: Sequelize.STRING },
 });
 
+const PostModel = db.define('post', {
+  title: { type: Sequelize.STRING },
+  text: { type: Sequelize.STRING },
+});
+
+AuthorModel.hasMany(PostModel);
+PostModel.belongsTo(AuthorModel);
 
 //create mock data with a seed, so we always get the same
 casual.seed(123);
 db.sync({ force: true }).then(() => {
   _.times(10, () => {
-    return TodoModel.create({
-      text: casual.sentence,
-      completed: 0
+    return AuthorModel.create({
+      firstName: casual.first_name,
+      lastName: casual.last_name,
     }).then((author) => {
-
+      return author.createPost({
+        title: `A post by ${author.firstName}`,
+        text: casual.sentences(3),
+      });
     });
   });
 });
 
-const Todo = db.models.todo;
+const Author = db.models.author;
+const Post = db.models.post;
+
 
 
 //========================================
@@ -50,13 +57,22 @@ const { ApolloServer, gql } = require('apollo-server');
 // which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
 type Query {
-  allTodos: [Todo]
+  author(firstName: String, lastName: String): Author
+  allAuthors: [Author]
+  getFortuneCookie: String # we'll use this later
 }
-
-type Todo {
+type Author {
   id: Int
+  firstName: String
+  lastName: String
+  posts: [Post]
+}
+type Post {
+  id: Int
+  title: String
   text: String
-  completed: Boolean
+  views: Int
+  author: Author
 }
 `;
 
@@ -65,20 +81,23 @@ type Todo {
 // schema.  We'll retrieve books from the "books" array above.
 const resolvers = {
   Query: {
-    allTodos(_, args) {
-      return Todo.findAll();
+    author(_, args) {
+      return Author.find({ where: args });
+    },
+    allAuthors(_, args) {
+      return Author.findAll();
     }
   },
-  // Todo: {
-  //   (author) {
-  //     return author.getPosts();
-  //   }
-  // },
-  // Post: {
-  //   author(post) {
-  //     return post.getAuthor();
-  //   }
-  // }
+  Author: {
+    posts(author) {
+      return author.getPosts();
+    }
+  },
+  Post: {
+    author(post) {
+      return post.getAuthor();
+    }
+  }
 };
 
 // In the most basic sense, the ApolloServer can be started
