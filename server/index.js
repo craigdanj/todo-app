@@ -91,18 +91,7 @@ const resolvers = {
         })
 
     }
-  },
-  
-  // Mutation: {
-  //   removeTodo(root, args, context, info) {
-
-  //       return Todo.destroy({ where: { id: args.id }}).then(todo => {
-
-  //         return Todo.findAll();
-  //       })
-
-  //   }
-  // }
+  }
 };
 
 // In the most basic sense, the ApolloServer can be started
