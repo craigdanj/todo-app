@@ -1,6 +1,6 @@
 # todo-app
 
-A todo app built with preact, node and graphQL.
+A todo app built with Preact, GraphQL and Node.js.
 
 ## Setting up the server
 1. Clone or download the repository into a folder on your machine.
