@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style';
+import List from '../list';
 
 export default class Home extends Component {
 
@@ -35,17 +36,7 @@ export default class Home extends Component {
                     <button onClick={this.handleAddTodo}>Add</button>
                 </div>
 
-                <ul class={style.todolist}>
-                    <li>
-                        <span>aaa</span>
-                    </li>
-                    <li>
-                        <span>bb</span>
-                    </li>
-                    <li>
-                        <span>ccc</span>
-                    </li>
-                </ul>
+                <List/>
             </div>
         )
     }
