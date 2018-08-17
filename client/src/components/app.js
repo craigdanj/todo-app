@@ -4,7 +4,7 @@ import { h, Component } from 'preact';
 import Header from './header';
 
 // Code-splitting is automated for routes
-import Home from './list';
+import Home from './home';
 // import Profile from '../routes/profile';
 
 export default class App extends Component {
