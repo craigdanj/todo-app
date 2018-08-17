@@ -50,8 +50,10 @@ export default class ListHeader extends Component {
                 mutation={ADD_TODO}
                 update={(cache, {data: {addTodo}}) => {
                     const results = cache.readQuery({ query: GET_TODOS });
-                    console.log(results);
-                    console.log(addTodo);
+
+                    // console.log(results);
+                    // console.log(addTodo);
+
                     cache.writeQuery({
                       query: GET_TODOS,
                       data: { allTodos: addTodo }
