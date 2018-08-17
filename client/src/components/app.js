@@ -25,10 +25,10 @@ export default class App extends Component {
 	render() {
 		return (
 			<ApolloProvider client={client}>
-			<div id="app">
-				<Header />
-				<Home />
-			</div>
+				<div id="app">
+					<Header />
+					<Home />
+				</div>
 			</ApolloProvider>
 		);
 	}

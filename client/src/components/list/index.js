@@ -26,7 +26,14 @@ const List = () => (
             return (
                 <ul class={style.todolist}>
                     {
-                        data.allTodos.map((todo) => (<li>{todo.text}</li>))    
+                        data.allTodos.map((todo) => (
+                            <li>
+                                {todo.text}
+
+                                <button>Remove</button>
+                            </li>
+                            )
+                        )    
                     }
                 </ul>
             );
