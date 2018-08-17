@@ -9,4 +9,4 @@ A todo app built with Preact, GraphQL and Node.js.
 
 ## Launching the client
 1. 'cd' into the client directory and run `yarn` or `npm install` to install the dependencies. 
-2. Run `yarn start` to start the dvelopment server.
+2. Run `yarn start` to start the development server.
