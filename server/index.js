@@ -74,17 +74,15 @@ const resolvers = {
   },
   Mutation: {
     addTodo(root, args, context, info) {
-
+      console.log("addTodo 1")
       return Todo.create({ text: args.text, completed: false}).then(todo => {
         // you can now access the newly created todo via the variable todo
+      console.log("addTodo 2")
 
         return Todo.findAll();
       })
 
-    }
-  },
-  
-  Mutation: {
+    },
     removeTodo(root, args, context, info) {
 
         return Todo.destroy({ where: { id: args.id }}).then(todo => {
@@ -93,7 +91,18 @@ const resolvers = {
         })
 
     }
-  }
+  },
+  
+  // Mutation: {
+  //   removeTodo(root, args, context, info) {
+
+  //       return Todo.destroy({ where: { id: args.id }}).then(todo => {
+
+  //         return Todo.findAll();
+  //       })
+
+  //   }
+  // }
 };
 
 // In the most basic sense, the ApolloServer can be started
