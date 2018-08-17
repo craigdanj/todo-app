@@ -54,6 +54,7 @@ type Query {
 
 type Mutation {
   addTodo(text: String): [Todo]
+  removeTodo(id: Int): [Todo]
 }
 
 type Todo {
@@ -79,6 +80,17 @@ const resolvers = {
 
         return Todo.findAll();
       })
+
+    }
+  },
+  
+  Mutation: {
+    removeTodo(root, args, context, info) {
+
+        return Todo.destroy({ where: { id: args.id }}).then(todo => {
+
+          return Todo.findAll();
+        })
 
     }
   }
