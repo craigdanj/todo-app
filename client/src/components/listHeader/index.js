@@ -22,7 +22,6 @@ export default class ListHeader extends Component {
     constructor(props) {
         super(props);
 
-        this.handleAddTodo = this.handleAddTodo.bind(this);
         this.handleOnInputChange = this.handleOnInputChange.bind(this);
     }
 
@@ -31,6 +30,7 @@ export default class ListHeader extends Component {
             todoText: event.target.value
         })
     }
+
 
     render() {
 
@@ -43,6 +43,7 @@ export default class ListHeader extends Component {
                     
                     <button 
                         onClick={e => {
+                            console.log("clicked")
                           addTodo({ variables: { text: this.state.todoText} });
                         }}
                     >
