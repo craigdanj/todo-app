@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const casual = require('casual');
 const _ = require('lodash');
 
-const db = new Sequelize('blog', null, null, {
+const db = new Sequelize('todolist', null, null, {
   dialect: 'sqlite',
   storage: './db.sqlite',
 });

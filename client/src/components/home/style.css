@@ -3,12 +3,3 @@
 	min-height: 100%;
 	width: 100%;
 }
-
-.todolist {
-    list-style: none;
-    padding: 0;
-}
-
-.todolist li {
-    padding: 5px 0;
-}

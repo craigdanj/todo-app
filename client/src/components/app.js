@@ -1,11 +1,16 @@
 import { h, Component } from 'preact';
-// import { Router } from 'preact-router';
 
 import Header from './header';
 
 // Code-splitting is automated for routes
 import Home from './home';
-// import Profile from '../routes/profile';
+
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/"
+});
 
 export default class App extends Component {
 
@@ -19,10 +24,12 @@ export default class App extends Component {
 
 	render() {
 		return (
+			<ApolloProvider client={client}>
 			<div id="app">
 				<Header />
 				<Home />
 			</div>
+			</ApolloProvider>
 		);
 	}
 }
