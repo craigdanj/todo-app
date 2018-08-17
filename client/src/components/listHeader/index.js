@@ -7,8 +7,19 @@ import gql from "graphql-tag";
 const ADD_TODO = gql`
   mutation AddTodo($text: String!) {
     addTodo(text:$text) {
+    id
     text
     completed
+    }
+  }
+`;
+
+const GET_TODOS = gql`
+  query {
+    allTodos{
+      id
+      text
+      completed
     }
   }
 `;
@@ -35,7 +46,18 @@ export default class ListHeader extends Component {
     render() {
 
         return (
-            <Mutation mutation={ADD_TODO}>
+            <Mutation 
+                mutation={ADD_TODO}
+                update={(cache, {data: {addTodo}}) => {
+                    const results = cache.readQuery({ query: GET_TODOS });
+                    console.log(results);
+                    console.log(addTodo);
+                    cache.writeQuery({
+                      query: GET_TODOS,
+                      data: { allTodos: addTodo }
+                    });
+                }}
+            >
 
             {(addTodo, { data }) => (
                 <div>
@@ -43,8 +65,8 @@ export default class ListHeader extends Component {
                     
                     <button 
                         onClick={e => {
-                            console.log("clicked")
                           addTodo({ variables: { text: this.state.todoText} });
+                          this.setState({todoText: ""});
                         }}
                     >
                         Add
